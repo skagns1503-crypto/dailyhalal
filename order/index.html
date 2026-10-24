@@ -709,6 +709,7 @@ SCR.status=function(){
    '<div class="sum"><div class="total"><span>'+T('입금할 금액','Amount')+'</span><span>'+won(o.total)+'</span></div></div>'+
    '<div class="note warn small">'+T('입금 기한 ','Pay by ')+'<b>'+fdt(o.payDue)+'</b>'+T(' — '+CFG.payHours+'시간 또는 주문 마감 중 빠른 때. 지나면 자동 취소됩니다.',' — '+CFG.payHours+' hours or the order deadline, whichever is first. Unpaid requests close automatically.')+'</div>'+
    '<button type="button" class="btn sm" data-act="copy" data-v="'+esc(o.bank.account)+'">'+T('계좌번호 복사','Copy account number')+'</button></div>';}
+ if(o.onlinePayment&&S.sess)extra+='<div class="card"><p>'+T('시험 주문입니다. 실제 청구 없이 카드결제 과정을 확인합니다.','Test order. No actual payment will be charged.')+'</p><button type="button" class="btn primary" data-act="payonline">'+T('카드 테스트 결제','Test card payment')+'</button></div>';
  if(o.status==='paid')extra='<div class="note ok">'+T('주문이 확정됐습니다. 배달 당일 출발하면 여기 표시됩니다.','Your order is confirmed. This page shows when the driver leaves.')+'</div>';
  if(o.status==='delivered')extra=reviewBox(o)+'<button type="button" class="btn" data-act="reorder">'+T('같은 구성으로 다시 주문','Reorder the same')+'</button>';
  var active=['requested','accepted','paid','out'].indexOf(o.status)>=0;
@@ -1059,6 +1060,7 @@ document.addEventListener('click',function(e){
      S.ptUse=0;S.ptRaw=null;if(r.points)S.points=r.points;
      home('status');toast(T('주문을 보냈습니다. 사장님께 알림이 갔습니다.','Request sent. The owner has been notified.'),4000);
      api('apiBoot').then(applyBoot);});return;}
+ if(a==='payonline'){if(!S.mine||!S.sess)return;call('apiPaymentPrepare',{sess:S.sess,id:S.mine.id},T('결제 준비 중…','Preparing payment…')).then(function(r){if(!r||!r.ok)return;try{sessionStorage.setItem('dailyhalal.payment',JSON.stringify({checkout:r.checkout,order:S.mine.id}));location.assign('/payment/');}catch(x){toast(T('결제 정보를 보관할 수 없습니다. 브라우저 설정을 확인해 주세요.','Please allow browser storage to continue.'));}});return;}
  if(a==='refresh'){call('apiMyOrders',mineArg(),T('확인하는 중…','Checking…')).then(function(r){if(r&&r.ok){applyBoot(r.boot);S.myOrders=r.orders;var m=r.orders.filter(function(o){return o.id===S.mine.id;})[0];if(m)S.mine=m;rerender();toast(T('최신 상태입니다.','Up to date.'));}});return;}
  if(a==='copy'){var v=el.dataset.v;try{navigator.clipboard.writeText(v).then(function(){toast(T('계좌번호를 복사했습니다.','Account number copied.'));},function(){toast(v,5000);});}catch(x){toast(v,5000);}return;}
  if(a==='my'){go('my');loadMine(false);return;}

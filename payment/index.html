@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>데일리할랄 | 카드 테스트 결제</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f4f5ef;color:#26362b;font-family:system-ui,sans-serif}
+    main{max-width:620px;margin:32px auto;padding:24px;background:white;border-radius:16px}
+    h1{font-size:24px}p{line-height:1.7;overflow-wrap:anywhere}.test{background:#fff3cc;padding:12px;border-radius:8px}
+    button,a{font:inherit}button{padding:14px 22px;background:#285a3d;color:white;border:0;border-radius:9px;cursor:pointer}
+    button:disabled{opacity:.5;cursor:wait}a{display:inline-block;margin:20px 0;color:#285a3d}strong{display:block;font-size:24px}
+    [hidden]{display:none!important}@media(max-width:650px){main{margin:12px;padding:18px}}
+  </style>
+  <script defer src="payment.js"></script>
+</head>
+<body><main>
+  <h1>데일리할랄 결제</h1>
+  <p class="test">테스트 전용입니다. 실제 요금이 청구되지 않습니다.</p>
+  <p id="order"></p><strong id="amount"></strong>
+  <p id="message" role="status" aria-live="polite">결제 정보를 확인하고 있습니다.</p>
+  <div id="methods"></div><div id="agreement"></div>
+  <button type="button" id="pay" hidden>카드 테스트 결제</button>
+  <button type="button" id="retry" hidden>승인 결과 다시 확인</button><br>
+  <a href="/order/">주문 내역으로 돌아가기</a>
+</main></body></html>
